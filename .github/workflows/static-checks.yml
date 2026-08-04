@@ -1,0 +1,26 @@
+name: Static checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Check Python syntax
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          for path in Path(".").rglob("*.py"):
+              compile(path.read_text(encoding="utf-8"), str(path), "exec")
+          PY
+      - name: Check shell syntax
+        run: bash -n scripts/*.sh
+      - name: Check YAML syntax
+        run: ruby -e 'require "yaml"; Dir["configs/*.yaml"].each { |path| YAML.load_file(path) }'

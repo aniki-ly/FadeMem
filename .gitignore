@@ -1,0 +1,24 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.idea/
+.vscode/
+.DS_Store
+
+# Downloaded models and training checkpoints are not part of the code release.
+longlive_models/
+wan_models/
+checkpoints/
+checkpoint*/
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+
+outputs/
+videos/
+wandb/
+*.log
+*.jsonl
