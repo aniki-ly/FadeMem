@@ -1,10 +1,8 @@
 <div align="center">
 
 <a href="https://arxiv.org/abs/2606.10671">
-  <img src="assets/fademem-logo.png" alt="FadeMem logo" width="560">
+  <img src="assets/logo-variants/fademem-logo-tight.png" alt="FadeMem logo" width="560">
 </a>
-
-# FadeMem
 
 ### Distance-Aware Memory Consolidation for Autoregressive Video Diffusion
 
