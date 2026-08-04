@@ -22,8 +22,8 @@ model_kwargs:
 data_path: prompts/example.txt
 output_folder: outputs/smoke
 inference_iter: -1
-num_output_frames: 30
-vae_stream_chunk_size: 30
+num_output_frames: 21
+vae_stream_chunk_size: 21
 use_ema: false
 seed: 42
 num_samples: 1
