@@ -87,6 +87,12 @@ NUM_GPUS=2 bash scripts/infer.sh configs/inference.yaml
 
 Use at least one prompt per GPU and make the prompt count divisible by `NUM_GPUS`.
 
+## Interactive and Multi-Prompt Generation
+
+This release focuses on the standard long-video generation setting and does not provide a maintained interactive or multi-shot inference entry point. FadeMem preserves the LongLive model architecture and causal generation interface, and the underlying pipeline interfaces for sequential prompt switching are retained for further extension.
+
+Users interested in interactive or multi-prompt generation may adapt the [LongLive v1.0 interactive inference workflow](https://github.com/NVlabs/LongLive/tree/v1.0) to FadeMem. Prompt-switch scheduling and cache handling should be validated for the intended setting, as these modes are not part of the officially evaluated release.
+
 ## Training
 
 Prepare the paired LongLive prompt files and launch the released eight-GPU recipe:
