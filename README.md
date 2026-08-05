@@ -16,6 +16,7 @@
 <sup>&#42;</sup>Equal contribution
 
 [![Paper](https://img.shields.io/badge/arXiv-2606.10671-b31b1b.svg)](https://arxiv.org/abs/2606.10671)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-FadeMem--FT-FFD21E.svg)](https://huggingface.co/sanity2025/FadeMem-FT)
 [![License](https://img.shields.io/badge/License-Apache--2.0-4c1.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10-3776ab.svg)](https://www.python.org/)
 
@@ -49,10 +50,26 @@ Adjust the PyTorch installation command if your CUDA version differs.
 
 ## Model Weights
 
-Download the [Wan2.1-T2V-1.3B](https://huggingface.co/Wan-AI/Wan2.1-T2V-1.3B) and [LongLive-1.3B](https://huggingface.co/Efficient-Large-Model/LongLive-1.3B) checkpoints required for inference:
+First, download the [Wan2.1-T2V-1.3B](https://huggingface.co/Wan-AI/Wan2.1-T2V-1.3B) and [LongLive-1.3B](https://huggingface.co/Efficient-Large-Model/LongLive-1.3B) checkpoints required for inference:
 
 ```bash
 bash scripts/download_models.sh inference
+```
+
+Then download the released [FadeMem-FT](https://huggingface.co/sanity2025/FadeMem-FT) LoRA checkpoint:
+
+```bash
+hf download sanity2025/FadeMem-FT \
+  --local-dir fademem_models/FadeMem-FT
+```
+
+FadeMem-FT is a LoRA checkpoint rather than a standalone text-to-video model. Inference still requires the LongLive base checkpoint. The relevant files should be organized as follows:
+
+```text
+FadeMem/
+├── fademem_models/FadeMem-FT/model.pt
+├── longlive_models/models/longlive_base.pt
+└── wan_models/Wan2.1-T2V-1.3B/
 ```
 
 For training, also download the [Wan2.1-T2V-14B](https://huggingface.co/Wan-AI/Wan2.1-T2V-14B) teacher:
@@ -65,24 +82,27 @@ This release follows the [LongLive v1.0](https://github.com/NVlabs/LongLive/tree
 
 ## Inference
 
-The released inference path targets Wan2.1-T2V-1.3B at 480 x 832 resolution with three-frame latent blocks. Add one text prompt per line to `prompts/example.txt`, then verify the installation with the short run:
+The released inference path targets Wan2.1-T2V-1.3B at 480 x 832 resolution with three-frame latent blocks. Add one text prompt per line to `prompts/example.txt`.
+
+Run inference with the released FadeMem-FT checkpoint:
 
 ```bash
-bash scripts/infer.sh configs/inference_smoke.yaml
+bash scripts/infer.sh configs/inference_ft.yaml
 ```
 
-Run the full approximately two-minute generation with:
+The configuration keeps the LongLive base checkpoint unchanged and loads FadeMem-FT as the LoRA checkpoint:
 
-```bash
-bash scripts/infer.sh configs/inference.yaml
+```yaml
+generator_ckpt: longlive_models/models/longlive_base.pt
+lora_ckpt: fademem_models/FadeMem-FT/model.pt
 ```
 
-Generated videos are saved under `outputs/`. Low-memory mode is selected automatically and can be overridden with `FADEMEM_LOW_MEMORY=0` or `FADEMEM_LOW_MEMORY=1`.
+Generated videos are saved under `outputs/inference/`. Low-memory mode is selected automatically and can be overridden with `FADEMEM_LOW_MEMORY=0` or `FADEMEM_LOW_MEMORY=1`.
 
 Prompt-level multi-GPU inference is supported through `NUM_GPUS`:
 
 ```bash
-NUM_GPUS=2 bash scripts/infer.sh configs/inference.yaml
+NUM_GPUS=2 bash scripts/infer.sh configs/inference_ft.yaml
 ```
 
 Use at least one prompt per GPU and make the prompt count divisible by `NUM_GPUS`.
