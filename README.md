@@ -17,6 +17,7 @@
 
 [![Paper](https://img.shields.io/badge/arXiv-2606.10671-b31b1b.svg)](https://arxiv.org/abs/2606.10671)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-FadeMem--FT-FFD21E.svg)](https://huggingface.co/sanity2025/FadeMem-FT)
+[![Project Page](https://img.shields.io/badge/Project-Page-2ea44f.svg)](https://fademem.github.io/FadeMem_Webpage/)
 [![License](https://img.shields.io/badge/License-Apache--2.0-4c1.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10-3776ab.svg)](https://www.python.org/)
 
